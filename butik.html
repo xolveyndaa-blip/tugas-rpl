@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Butik Bontang — Toko Fashion Lokal</title>
+  <meta name="description" content="Butik Bontang — Pilihan busana stylish & kualitas untuk semua usia. Belanja online sederhana dan aman." />
+
+  <!-- Basic styling -->
+  <style>
+    :root{
+      --accent:#d6336c;
+      --muted:#666;
+      --bg:#f8f9fb;
+      --card:#ffffff;
+      --radius:12px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:#222;
+      line-height:1.45;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    a{color:inherit;text-decoration:none}
+    header{
+      background:linear-gradient(90deg, #fff 0%, #fff 50%, rgba(214,51,108,0.04) 100%);
+      border-bottom:1px solid rgba(0,0,0,0.04);
+      position:sticky;
+      top:0;
+      z-index:50;
+    }
+    .container{
+      max-width:1100px;
+      margin:0 auto;
+      padding:18px;
+    }
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-weight:700;
+      font-size:18px;
+    }
+    .logo{
+      width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#ff8ab8);
+      display:flex;align-items:center;justify-content:center;color:white;font-weight:800;box-shadow:0 6px 18px rgba(214,51,108,0.14)
+    }
+    nav a{margin-left:14px;color:var(--muted);font-weight:600}
+    .hero{
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:26px;
+      align-items:center;
+      padding:28px 0;
+    }
+    .hero-card{
+      background:var(--card);
+      border-radius:var(--radius);
+      padding:28px;
+      box-shadow:0 8px 30px rgba(16,24,40,0.06);
+    }
+    h1{margin:0 0 8px 0;font-size:28px}
+    p.lead{margin:0;color:var(--muted)}
+    .cta{
+      display:inline-block;margin-top:18px;background:var(--accent);color:#fff;padding:10px 16px;border-radius:10px;font-weight:700;
+      box-shadow:0 8px 20px rgba(214,51,108,0.12)
+    }
+
+    /* Product grid */
+    .products{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:18px;
+      margin-top:22px;
+    }
+    .card{
+      background:var(--card);
+      border-radius:12px;
+      overflow:hidden;
+      box-shadow:0 8px 18px rgba(16,24,40,0.04);
+      display:flex;
+      flex-direction:column;
+    }
+    .card img{width:100%;height:220px;object-fit:cover;display:block}
+    .card-body{padding:14px;flex:1;display:flex;flex-direction:column;gap:8px}
+    .price{font-weight:800;color:var(--accent);font-size:16px}
+    .small{font-size:13px;color:var(--muted)}
+    .btn{
+      border:none;padding:10px 12px;border-radius:10px;font-weight:700;cursor:pointer;
+      background:linear-gradient(90deg,var(--accent),#ff7aa0);color:white;
+    }
+    .btn.secondary{
+      background:transparent;border:1px solid rgba(0,0,0,0.06);color:var(--muted);font-weight:700;
+    }
+
+    /* Cart drawer */
+    .cart-toggle{
+      position:relative;
+      display:inline-flex;
+      align-items:center;gap:8px;padding:8px 10px;border-radius:10px;background:transparent;border:1px solid rgba(0,0,0,0.04);
+    }
+    .badge{
+      background:var(--accent);color:white;padding:4px 8px;border-radius:999px;font-weight:700;font-size:13px;
+    }
+    .cart-drawer{
+      position:fixed;right:18px;top:80px;width:360px;max-width:calc(100% - 36px);background:var(--card);border-radius:12px;padding:14px;box-shadow:0 24px 60px rgba(16,24,40,0.18);
+      transform-origin:top right;transition:transform .22s ease,opacity .18s ease;opacity:0;transform:translateY(-8px) scale(.98);pointer-events:none;
+    }
+    .cart-drawer.open{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;}
+    .cart-list{max-height:380px;overflow:auto;margin-top:8px;display:flex;flex-direction:column;gap:10px}
+    .cart-item{display:flex;gap:10px;align-items:center}
+    .cart-item img{width:56px;height:56px;object-fit:cover;border-radius:8px}
+    .cart-item .meta{flex:1}
+    .cart-summary{border-top:1px dashed rgba(0,0,0,0.06);padding-top:10px;margin-top:10px;display:flex;justify-content:space-between;align-items:center}
+    .empty{color:var(--muted);padding:18px;text-align:center}
+
+    /* Footer */
+    footer{margin-top:36px;padding:24px 0;color:var(--muted);font-size:14px;text-align:center}
+
+    /* Responsive */
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr}
+      .products{grid-template-columns:repeat(2,1fr)}
+      .nav a{display:none}
+    }
+    @media (max-width:600px){
+      .products{grid-template-columns:1fr}
+      .logo{width:40px;height:40px}
+      h1{font-size:22px}
+      .hero-card{padding:18px}
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container nav">
+      <div style="display:flex;gap:12px;align-items:center">
+        <div class="logo">BB</div>
+        <div>
+          <div class="brand">Butik Bontang</div>
+          <div style="font-size:12px;color:var(--muted)">Busana lokal — Kualitas & gaya</div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:12px">
+        <nav aria-label="Main navigation">
+          <a href="#produk">Produk</a>
+          <a href="#tentang">Tentang</a>
+          <a href="#kontak">Kontak</a>
+        </nav>
+
+        <button id="cartBtn" class="cart-toggle" aria-expanded="false" title="Lihat keranjang">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M3 3h2l.4 2M7 13h10l4-8H5.4" stroke="#222" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Keranjang</span>
+          <span id="cartCount" class="badge" style="display:none">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-card">
+        <h1>Selamat datang di Butik Bontang</h1>
+        <p class="lead">Koleksi busana perempuan & laki-laki — dari kasual sampai formal. Gratis ongkir untuk wilayah Bontang (syarat berlaku).</p>
+        <a href="#produk" class="cta">Belanja Sekarang</a>
+
+        <div style="display:flex;gap:12px;margin-top:18px;flex-wrap:wrap">
+          <div style="background:#fff;padding:12px;border-radius:12px;box-shadow:0 8px 20px rgba(16,24,40,0.04)">
+            <div style="font-weight:700">🌟 Promo Mingguan</div>
+            <div style="font-size:13px;color:var(--muted)">Diskon 10% untuk pembelian 2 item</div>
+          </div>
+          <div style="background:#fff;padding:12px;border-radius:12px;box-shadow:0 8px 20px rgba(16,24,40,0.04)">
+            <div style="font-weight:700">🚚 Pengiriman Cepat</div>
+            <div style="font-size:13px;color:var(--muted)">Antar area Bontang 1–2 hari kerja</div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="hero-card" aria-hidden>
+        <img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="Butik Bontang - contoh produk" style="width:100%;border-radius:10px;display:block;object-fit:cover;height:320px">
+      </aside>
+    </section>
+
+    <!-- Produk -->
+    <section id="produk" style="margin-top:18px">
+      <div style="display:flex;justify-content:space-between;align-items:end">
+        <h2 style="margin:0">Produk Pilihan</h2>
+        <div style="color:var(--muted);font-size:14px">Semua harga dalam IDR</div>
+      </div>
+
+      <div class="products" id="productGrid" aria-live="polite" style="margin-top:12px">
+        <!-- Product cards will be injected by JS -->
+      </div>
+    </section>
+
+    <!-- Tentang -->
+    <section id="tentang" style="margin-top:30px">
+      <div class="hero-card">
+        <h3>Tentang Butik Bontang</h3>
+        <p class="small">Butik Bontang merupakan toko lokal di Bontang yang menjual busana berkualitas untuk remaja hingga dewasa. Kami fokus pada gaya modern, bahan nyaman, dan layanan pelanggan yang ramah.</p>
+        <ul style="margin-top:10px;color:var(--muted)">
+          <li>Koleksi: dress, kemeja, outer, aksesoris</li>
+          <li>Metode pembayaran: transfer bank, COD (area tertentu)</li>
+          <li>Kontak: +62 8xx-xxxx-xxxx</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Kontak -->
+    <section id="kontak" style="margin-top:22px">
+      <div class="hero-card" style="display:grid;grid-template-columns:1fr 320px;gap:16px">
+        <div>
+          <h3>Hubungi Kami</h3>
+          <p class="small">Untuk pesanan khusus, kerjasama, atau pertanyaan, silakan hubungi via WhatsApp atau email.</p>
+          <p style="margin-top:8px"><strong>WhatsApp:</strong> <a href="https://wa.me/628xxxx" target="_blank">+62 8xx-xxxx-xxxx</a></p>
+          <p><strong>Email:</strong> <a href="mailto:butikbontang@example.com">butikbontang@example.com</a></p>
+        </div>
+        <form id="contactForm" onsubmit="event.preventDefault(); alert('Terima kasih! Pesan Anda telah terkirim (simulasi).');" style="display:flex;flex-direction:column;gap:8px">
+          <input type="text" placeholder="Nama" required style="padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06)">
+          <input type="email" placeholder="Email" required style="padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06)">
+          <textarea placeholder="Pesan" rows="4" required style="padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06)"></textarea>
+          <button class="btn" type="submit">Kirim Pesan</button>
+        </form>
+      </div>
+    </section>
+
+    <footer>
+      &copy; <span id="year"></span> Butik Bontang — Semua hak cipta dilindungi.
+    </footer>
+  </main>
+
+  <!-- Cart drawer -->
+  <aside id="cartDrawer" class="cart-drawer" aria-hidden="true">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <strong>Keranjang Anda</strong>
+      <button id="closeCart" class="btn secondary" style="padding:6px 8px">Tutup</button>
+    </div>
+
+    <div id="cartList" class="cart-list">
+      <div class="empty">Keranjang kosong — tambahkan produk dari daftar.</div>
+    </div>
+
+    <div class="cart-summary" id="cartSummary" style="display:none">
+      <div>
+        <div style="font-size:13px;color:var(--muted)">Total</div>
+        <div id="cartTotal" style="font-weight:800;font-size:16px">Rp0</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <button id="checkoutBtn" class="btn">Checkout</button>
+        <button id="clearBtn" class="btn secondary" style="padding:8px 10px">Bersihkan</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- JavaScript: produk & fungsi keranjang -->
+  <script>
+    // -----------------------------------------
+    // Data produk contoh (ganti / lengkapi sesuai kebutuhan)
+    // -----------------------------------------
+    const products = [
+      { id: 'p1', name: 'Dress Floral', price: 199000, img: 'public/images/dress_floral.jpeg', desc: 'Dress motif floral, bahan katun combed lembut.' },
+      { id: 'p2', name: 'Kemeja Linen Pria', price: 149000, img: 'public/images/kemejalakilaki.jpg', desc: 'Kemeja linen breathable, cocok untuk acara kasual.' },
+      { id: 'p3', name: 'Outer Cardigan', price: 179000, img: 'public/images/outer.jpg', desc: 'Outer hangat, style kasual & elegan.' },
+      { id: 'p4', name: 'Rok Midi', price: 129000, img: 'public/images/rokmidi.png', desc: 'Rok midi dengan bahan nyaman dan jatuh.' },
+      { id: 'p5', name: 'Aksesoris Tas', price: 89000, img: 'public/images/aksesoristas.jpg', desc: 'Tas kecil, cocok untuk hangout.' },
+      { id: 'p6', name: 'Kaos Basic', price: 79000, img: 'public/images/kaos_basic.jpg', desc: 'Kaos bahan cotton combed 30s, nyaman dipakai sehari-hari.' }
+    ];
+
+    // helper untuk format rupiah
+    function formatRupiah(n){
+      return 'Rp' + n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    }
+
+    // inject product cards
+    const grid = document.getElementById('productGrid');
+    products.forEach(p=>{
+      const card = document.createElement('article');
+      card.className = 'card';
+      card.innerHTML = `
+        <img src="${p.img}" alt="${p.name}">
+        <div class="card-body">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-weight:800">${p.name}</div>
+              <div class="small">${p.desc}</div>
+            </div>
+            <div style="text-align:right">
+              <div class="price">${formatRupiah(p.price)}</div>
+              <div style="font-size:12px;color:var(--muted)">Stok: 99+</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:auto">
+            <button class="btn addBtn" data-id="${p.id}">Tambah</button>
+            <button class="btn secondary" data-id="${p.id}" onclick="alert('Detail produk: ${p.name}\\n\\n${p.desc}\\nHarga: ${formatRupiah(p.price)}')">Lihat</button>
+          </div>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+
+    // -----------------------------------------
+    // Keranjang sederhana (localStorage)
+    // -----------------------------------------
+    const cartBtn = document.getElementById('cartBtn');
+    const cartDrawer = document.getElementById('cartDrawer');
+    const cartListEl = document.getElementById('cartList');
+    const cartCountEl = document.getElementById('cartCount');
+    const cartSummary = document.getElementById('cartSummary');
+    const cartTotalEl = document.getElementById('cartTotal');
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const closeCart = document.getElementById('closeCart');
+
+    let cart = JSON.parse(localStorage.getItem('butik_cart_v1') || '{}');
+
+    function saveCart(){
+      localStorage.setItem('butik_cart_v1', JSON.stringify(cart));
+      renderCart();
+    }
+
+    function addToCart(id){
+      if(!cart[id]) cart[id] = { qty:0, ...products.find(p=>p.id===id) };
+      cart[id].qty += 1;
+      saveCart();
+      openCart();
+    }
+
+    // attach add button listeners
+    document.querySelectorAll('.addBtn').forEach(btn=>{
+      btn.addEventListener('click', e=>{
+        const id = e.currentTarget.dataset.id;
+        addToCart(id);
+      });
+    });
+
+    function renderCart(){
+      // count total items
+      const items = Object.values(cart);
+      const itemCount = items.reduce((s,i)=>s+i.qty,0);
+      if(itemCount>0){
+        cartCountEl.style.display='inline-block';
+        cartCountEl.textContent = itemCount;
+      } else {
+        cartCountEl.style.display='none';
+      }
+
+      // render list
+      cartListEl.innerHTML = '';
+      if(items.length === 0){
+        cartListEl.innerHTML = '<div class="empty">Keranjang kosong — tambahkan produk dari daftar.</div>';
+        cartSummary.style.display='none';
+        return;
+      }
+
+      items.forEach(it=>{
+        const div = document.createElement('div');
+        div.className = 'cart-item';
+        div.innerHTML = `
+          <img src="${it.img}" alt="${it.name}">
+          <div class="meta">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div style="font-weight:700">${it.name}</div>
+              <div style="font-weight:800">${formatRupiah(it.price * it.qty)}</div>
+            </div>
+            <div class="small" style="display:flex;align-items:center;gap:8px;margin-top:6px">
+              <div>
+                <button class="btn secondary qtyBtn" data-id="${it.id}" data-op="-">-</button>
+                <span style="margin:0 8px;font-weight:700">${it.qty}</span>
+                <button class="btn secondary qtyBtn" data-id="${it.id}" data-op="+">+</button>
+              </div>
+              <button class="btn secondary" style="margin-left:auto" data-id="${it.id}" onclick="removeItem('${it.id}')">Hapus</button>
+            </div>
+          </div>
+        `;
+        cartListEl.appendChild(div);
+      });
+
+      // attach qty listeners
+      document.querySelectorAll('.qtyBtn').forEach(b=>{
+        b.addEventListener('click', e=>{
+          const id = e.currentTarget.dataset.id;
+          const op = e.currentTarget.dataset.op;
+          if(op==='-'){ cart[id].qty = Math.max(0, cart[id].qty - 1); if(cart[id].qty===0) delete cart[id]; }
+          else { cart[id].qty += 1; }
+          saveCart();
+        });
+      });
+
+      // show summary
+      const total = items.reduce((s,i)=>s + i.price * i.qty, 0);
+      cartTotalEl.textContent = formatRupiah(total);
+      cartSummary.style.display = 'flex';
+    }
+
+    function removeItem(id){
+      if(cart[id]) delete cart[id];
+      saveCart();
+    }
+
+    function clearCart(){
+      cart = {};
+      saveCart();
+    }
+
+    // open/close drawer
+    function openCart(){
+      cartDrawer.classList.add('open');
+      cartDrawer.setAttribute('aria-hidden','false');
+      cartBtn.setAttribute('aria-expanded','true');
+    }
+    function closeCartFn(){
+      cartDrawer.classList.remove('open');
+      cartDrawer.setAttribute('aria-hidden','true');
+      cartBtn.setAttribute('aria-expanded','false');
+    }
+
+    cartBtn.addEventListener('click', ()=>{
+      if(cartDrawer.classList.contains('open')) closeCartFn();
+      else openCart();
+    });
+    closeCart.addEventListener('click', closeCartFn);
+
+    // checkout (simulasi)
+    checkoutBtn.addEventListener('click', ()=>{
+      const items = Object.values(cart);
+      if(items.length===0){ alert('Keranjang kosong. Silakan tambahkan produk.'); return; }
+      const lines = items.map(i => `${i.name} x${i.qty} — ${formatRupiah(i.price * i.qty)}`);
+      const total = items.reduce((s,i)=>s + i.price * i.qty, 0);
+      // Simulasi konfirmasi
+      const confirmMsg = 'Ringkasan pesanan:\\n\\n' + lines.join('\\n') + '\\n\\nTotal: ' + formatRupiah(total) + '\\n\\nLanjutkan ke proses pembayaran? (simulasi)';
+      if(confirm(confirmMsg)){
+        // di sini biasanya redirect ke halaman pembayaran / backend
+        alert('Terima kasih! Pesanan Anda telah tercatat (simulasi).');
+        clearCart();
+      }
+    });
+
+    clearBtn.addEventListener('click', ()=>{
+      if(confirm('Bersihkan semua item dari keranjang?')) clearCart();
+    });
+
+    // initialize
+    renderCart();
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // expose removeItem untuk inline onclick (sebagai fallback)
+    window.removeItem = removeItem;
+
+    // Accessibility: close drawer on Escape
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape') closeCartFn();
+    });
+  </script>
+
+</body>
+</html>
